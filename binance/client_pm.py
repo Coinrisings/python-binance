@@ -4638,9 +4638,9 @@ class PortfolioClient(BaseClient):
 
 
     def auto_collection(self):
-        return self._request_margin_api('get', 'auto-collection', signed=True, data=params)
+        return self._request_margin_api('get', 'auto-collection', signed=True)
 
-    def bbn_transfer(self):
+    def bbn_transfer(self, params):
         return self._request_margin_api('get', 'bnb-transfer', signed=True, data=params)
 
     # Cross-margin
