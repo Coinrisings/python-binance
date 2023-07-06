@@ -411,7 +411,6 @@ class PortfolioClient(BaseClient):
 
     def _request_margin_api(self, method, path, signed=False, version=1, **kwargs) -> Dict:
         uri = self._create_margin_api_uri(path, version)
-
         return self._request(method, uri, signed, **kwargs)
 
     def _request_portfolio_api(self, method, path, signed=False, version=1, **kwargs) -> Dict:
@@ -3699,7 +3698,7 @@ class PortfolioClient(BaseClient):
         :raises: BinanceRequestException, BinanceAPIException
 
         """
-        return self._request_margin_api('post', 'margin/repay', signed=True, data=params)
+        return self._request_margin_api('post', 'repayLoan', signed=True, data=params)
 
     def create_margin_order(self, **params):
         """Post a new order for margin account.
@@ -4638,10 +4637,10 @@ class PortfolioClient(BaseClient):
 
 
     def auto_collection(self):
-        return self._request_margin_api('get', 'auto-collection', signed=True, data={})
+        return self._request_margin_api('post', 'auto-collection', signed=True, data={})
 
     def bbn_transfer(self, params):
-        return self._request_margin_api('get', 'bnb-transfer', signed=True, data=params)
+        return self._request_margin_api('post', 'bnb-transfer', signed=True, data=params)
 
     # Cross-margin
 
