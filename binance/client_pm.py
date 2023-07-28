@@ -219,8 +219,19 @@ class BaseClient:
         # return self.MARGIN_API_URL + '/' + options[version] + '/' + path
         return self.PORTFOLIO_URL + '/' + options[version] + '/' + path
 
+    def _create_spot_api_uri(self, path: str, version: int = 1) -> str:
+        options = {
+            1: self.MARGIN_API_VERSION,
+            2: self.MARGIN_API_VERSION2,
+            3: self.MARGIN_API_VERSION3,
+            4: self.MARGIN_API_VERSION4,
+        }
+        return self.MARGIN_API_URL + '/' + options[version] + '/' + path
+
     def _create_website_uri(self, path: str) -> str:
         return self.WEBSITE_URL + '/' + path
+
+
 
     def _create_futures_api_uri(self, path: str) -> str:
         url = self.FUTURES_URL
@@ -360,7 +371,7 @@ class PortfolioClient(BaseClient):
         return session
 
     def _request(self, method, uri: str, signed: bool, force_params: bool = False, **kwargs):
-
+        print('request:', uri, kwargs)
         kwargs = self._get_request_kwargs(method, signed, force_params, **kwargs)
         self.response = getattr(self.session, method)(uri, **kwargs)
         return self._handle_response(self.response)
@@ -382,6 +393,7 @@ class PortfolioClient(BaseClient):
         self, method, path: str, signed: bool = False, version=BaseClient.PUBLIC_API_VERSION, **kwargs
     ):
         uri = self._create_api_uri(path, signed, version)
+        print(uri)
         return self._request(method, uri, signed, **kwargs)
 
     def _request_futures_api(self, method, path, signed=False, **kwargs) -> Dict:
@@ -408,6 +420,10 @@ class PortfolioClient(BaseClient):
         uri = self._create_options_api_uri(path)
 
         return self._request(method, uri, signed, True, **kwargs)
+
+    def _request_spot_api(self, method, path, signed=False, version=1, **kwargs) -> Dict:
+        uri = self._create_spot_api_uri(path, version)
+        return self._request(method, uri, signed, **kwargs)
 
     def _request_margin_api(self, method, path, signed=False, version=1, **kwargs) -> Dict:
         uri = self._create_margin_api_uri(path, version)
@@ -1919,7 +1935,8 @@ class PortfolioClient(BaseClient):
         :raises: BinanceRequestException, BinanceAPIException
 
         """
-        return self._get('allOrders', True, data=params)
+        # return self._get('allOrders', True, data=params)
+        return self._request_spot_api('get', 'margin/allOrders', True, data=params)
 
     def cancel_order(self, **params):
         """Cancel an active order. Either orderId or origClientOrderId must be sent.
@@ -6264,7 +6281,7 @@ class PortfolioClient(BaseClient):
         https://binance-docs.github.io/apidocs/futures/en/#all-orders-user_data
 
         """
-        return self._request_futures_api('get', 'allOrders', True, data=params)
+        return self._request_futures_api('get', 'um/allOrders', True, data=params)
 
     def futures_cancel_order(self, **params):
         """Cancel an active futures order.
@@ -6360,7 +6377,7 @@ class PortfolioClient(BaseClient):
         https://binance-docs.github.io/apidocs/futures/en/#get-income-history-user_data
 
         """
-        return self._request_futures_api('get', 'income', True, data=params)
+        return self._request_futures_api('get', 'um/income', True, data=params)
 
     def futures_change_position_mode(self, **params):
         """Change position mode for authenticated account
@@ -6646,7 +6663,7 @@ class PortfolioClient(BaseClient):
 
         """
         return self._request_futures_coin_api(
-            "get", "allOrders", signed=True, data=params
+            "get", "cm/allOrders", signed=True, data=params
         )
 
     def futures_coin_cancel_order(self, **params):
@@ -6761,7 +6778,7 @@ class PortfolioClient(BaseClient):
         https://binance-docs.github.io/apidocs/delivery/en/#get-income-history-user_data
 
         """
-        return self._request_futures_coin_api("get", "income", True, data=params)
+        return self._request_futures_coin_api("get", "cm/income", True, data=params)
 
     def futures_coin_change_position_mode(self, **params):
         """Change user's position mode (Hedge Mode or One-way Mode ) on EVERY symbol
