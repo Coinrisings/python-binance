@@ -6329,7 +6329,7 @@ class PortfolioClient(BaseClient):
         https://binance-docs.github.io/apidocs/futures/en/#change-initial-leverage-trade
 
         """
-        return self._request_futures_api('post', 'leverage', True, data=params)
+        return self._request_portfolio_api('post', 'um/leverage', True, data=params)
 
     def futures_change_margin_type(self, **params):
         """Change the margin type for a symbol
@@ -6722,8 +6722,8 @@ class PortfolioClient(BaseClient):
         https://binance-docs.github.io/apidocs/delivery/en/#change-initial-leverage-trade
 
         """
-        return self._request_futures_coin_api(
-            "post", "leverage", signed=True, data=params
+        return self._request_portfolio_api(
+            "post", "cm/leverage", signed=True, data=params
         )
 
     def futures_coin_change_margin_type(self, **params):
@@ -8667,7 +8667,7 @@ class AsyncClient(BaseClient):
         return await self._request_futures_api('get', 'account', True, data=params)
 
     async def futures_change_leverage(self, **params):
-        return await self._request_futures_api('post', 'leverage', True, data=params)
+        return await self._request_portfolio_api('post', 'um/leverage', True, data=params)
 
     async def futures_change_margin_type(self, **params):
         return await self._request_futures_api('post', 'marginType', True, data=params)
@@ -8843,8 +8843,8 @@ class AsyncClient(BaseClient):
         )
 
     async def futures_coin_change_leverage(self, **params):
-        return await self._request_futures_coin_api(
-            "post", "leverage", signed=True, data=params
+        return await self._request_portfolio_api(
+            "post", "cm/leverage", signed=True, data=params
         )
 
     async def futures_coin_change_margin_type(self, **params):
