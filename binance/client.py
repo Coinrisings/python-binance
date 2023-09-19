@@ -374,6 +374,7 @@ class Client(BaseClient):
         self, method, path: str, signed: bool = False, version=BaseClient.PUBLIC_API_VERSION, **kwargs
     ):
         uri = self._create_api_uri(path, signed, version)
+        print(uri)
         return self._request(method, uri, signed, **kwargs)
 
     def _request_futures_api(self, method, path, signed=False, **kwargs) -> Dict:
@@ -1823,6 +1824,9 @@ class Client(BaseClient):
 
         """
         return self._post('order/test', True, data=params)
+
+    def create_sor_order(self, **params):
+        return self._post('sor/order', True,version=BaseClient.PRIVATE_API_VERSION, data=params)
 
     def get_order(self, **params):
         """Check an order's status. Either orderId or origClientOrderId must be sent.

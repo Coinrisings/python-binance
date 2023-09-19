@@ -1853,6 +1853,7 @@ class PortfolioClient(BaseClient):
         """
         return self._post('order/test', True, data=params)
 
+
     def get_order(self, **params):
         """Check an order's status. Either orderId or origClientOrderId must be sent.
 
@@ -4654,7 +4655,10 @@ class PortfolioClient(BaseClient):
 
 
     def auto_collection(self):
-        return self._request_margin_api('post', 'auto-collection', signed=True, data={})
+        return self._request_portfolio_api('post', 'auto-collection', signed=True, data={})
+
+    def asset_collection(self, symbol):
+        return self._request_portfolio_api('post', 'asset-collection', signed=True, data={'asset':symbol})
 
     def bbn_transfer(self, params):
         return self._request_margin_api('post', 'bnb-transfer', signed=True, data=params)
