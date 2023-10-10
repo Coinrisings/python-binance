@@ -6389,7 +6389,7 @@ class PortfolioClient(BaseClient):
         https://binance-docs.github.io/apidocs/futures/en/#change-position-mode-trade
 
         """
-        return self._request_futures_api('post', 'positionSide/dual', True, data=params)
+        return self._request_futures_api('post', 'um/positionSide/dual', True, data=params)
 
     def futures_get_position_mode(self, **params):
         """Get position mode for authenticated account
@@ -6397,7 +6397,7 @@ class PortfolioClient(BaseClient):
         https://binance-docs.github.io/apidocs/futures/en/#get-current-position-mode-user_data
 
         """
-        return self._request_futures_api('get', 'positionSide/dual', True, data=params)
+        return self._request_futures_api('get', 'um/positionSide/dual', True, data=params)
 
     def futures_change_multi_assets_mode(self, multiAssetsMargin: bool):
         """Change user's Multi-Assets mode (Multi-Assets Mode or Single-Asset Mode) on Every symbol
@@ -6789,7 +6789,7 @@ class PortfolioClient(BaseClient):
 
         https://binance-docs.github.io/apidocs/delivery/en/#change-position-mode-trade
         """
-        return self._request_futures_coin_api("post", "positionSide/dual", True, data=params)
+        return self._request_futures_coin_api("post", "cm/positionSide/dual", True, data=params)
 
     def futures_coin_get_position_mode(self, **params):
         """Get user's position mode (Hedge Mode or One-way Mode ) on EVERY symbol
@@ -6797,7 +6797,7 @@ class PortfolioClient(BaseClient):
         https://binance-docs.github.io/apidocs/delivery/en/#get-current-position-mode-user_data
 
         """
-        return self._request_futures_coin_api("get", "positionSide/dual", True, data=params)
+        return self._request_futures_coin_api("get", "cm/positionSide/dual", True, data=params)
 
     def futures_coin_stream_get_listen_key(self):
         res = self._request_futures_coin_api('post', 'listenKey', signed=False, data={})
