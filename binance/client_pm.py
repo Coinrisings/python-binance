@@ -6247,7 +6247,7 @@ class PortfolioClient(BaseClient):
         https://binance-docs.github.io/apidocs/futures/en/#new-order-trade
 
         """
-        return self._request_futures_api('post', 'order', True, data=params)
+        return self._request_futures_api('post', 'um/order', True, data=params)
 
     def futures_place_batch_order(self, **params):
         """Send in new orders.
@@ -6293,7 +6293,7 @@ class PortfolioClient(BaseClient):
         https://binance-docs.github.io/apidocs/futures/en/#cancel-order-trade
 
         """
-        return self._request_futures_api('delete', 'order', True, data=params)
+        return self._request_futures_api('delete', 'um/order', True, data=params)
 
     def futures_cancel_all_open_orders(self, **params):
         """Cancel all open futures orders
@@ -6301,7 +6301,7 @@ class PortfolioClient(BaseClient):
         https://binance-docs.github.io/apidocs/futures/en/#cancel-all-open-orders-trade
 
         """
-        return self._request_futures_api('delete', 'allOpenOrders', True, data=params)
+        return self._request_futures_api('delete', 'um/allOpenOrders', True, data=params)
 
     def futures_cancel_orders(self, **params):
         """Cancel multiple futures orders
