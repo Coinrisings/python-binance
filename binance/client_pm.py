@@ -359,8 +359,7 @@ class PortfolioClient(BaseClient):
 
         super().__init__(api_key, api_secret, requests_params, tld, base_endpoint, testnet, private_key, private_key_pass)
 
-        # init DNS and SSL cert
-        self.ping()
+
 
     def _init_session(self) -> requests.Session:
 
