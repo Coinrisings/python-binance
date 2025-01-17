@@ -353,8 +353,9 @@ class Client(BaseClient):
     def _request(self, method, uri: str, signed: bool, force_params: bool = False, **kwargs):
 
         kwargs = self._get_request_kwargs(method, signed, force_params, **kwargs)
-
+        #print(kwargs)
         self.response = getattr(self.session, method)(uri, **kwargs)
+        # print(self.response.text)
         return self._handle_response(self.response)
 
     @staticmethod
@@ -405,7 +406,7 @@ class Client(BaseClient):
     def _request_margin_api(self, method, path, signed=False, version=1, **kwargs) -> Dict:
         uri = self._create_margin_api_uri(path, version)
 
-        return self._request(method, uri, signed, **kwargs)
+        return self._request(method, uri, signed, True, **kwargs)
 
     def _request_website(self, method, path, signed=False, **kwargs) -> Dict:
         uri = self._create_website_uri(path)
@@ -6570,7 +6571,7 @@ class Client(BaseClient):
         return self._request_margin_api("get", "asset/transfer", True, data=params)
 
     def funding_wallet(self, **params):
-        return self._request_margin_api("get", "asset/get-funding-asset", True, data=params)
+        return self._request_margin_api("post", "asset/get-funding-asset", True, data=params)
 
     def get_user_asset(self, **params):
         return self._request_margin_api("post", "asset/getUserAsset", True, data=params, version=3)
